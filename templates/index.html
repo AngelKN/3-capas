@@ -1,91 +1,86 @@
+<!-- CAPA DE PRESENTACION -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitoreo de Flota - FastTrack Logistics</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f9;
-        }
-        header {
-            width: 100%;
-            padding: 1em;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            font-size: 1.5em;
-        }
-        .container {
-            width: 80%;
-            max-width: 800px;
-            margin: 1em 0;
-        }
-        select, .info, .map {
-            width: 100%;
-            margin-top: 1em;
-            padding: 1em;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            background-color: white;
-        }
-        .map {
-            height: 400px;
-            background: #e0e0e0 url('https://via.placeholder.com/400x300') center / cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            font-size: 1.2em;
-        }
-        .info {
-            font-size: 1em;
-            line-height: 1.5;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>Monitoreo de Flota - FastTrack Logistics</header>
-
+    <header class="header">   
+        MONITOREO DE FLOTA <br><i class="fas fa-truck logo"></i>  FastTrack Logistics 
+    </header>
     <div class="container">
-        <form action="/" method="POST">
-            <label for="vehicleSelect">Seleccione un vehículo:</label>
-            <select id="vehicleSelect" name="vehiculoId" onchange="this.form.submit()">
-                <option value="">-- Seleccione --</option>
+        <form action="/" method="POST" class="form">
+            <label for="vehicleSelect" class="label">Selecciona un vehículo:</label>
+            <select id="vehicleSelect" name="vehiculoId" class="select" onchange="this.form.submit()">
+                <option value="">-- Selecciona --</option>
                 {% for vehiculo in db %}
                 <option value="{{ vehiculo.id }}">{{ vehiculo.nombre }}</option>
                 {% endfor %}
             </select>
         </form>
-
         {% if select %}
-
-        <div class="map" id="map">
-            <iframe 
-            src="{{ select.localizacion }}" 
-            width="1000" 
-            height="400" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>        </div>
-
-        <div class="info" id="vehicleInfo">
-                <p><strong>Nombre:</strong> {{ select.nombre }}</p>
-                <p><strong>Conductor:</strong> {{ select.conductor }}</p>
-                <p><strong>Status:</strong> {{ select.status }}</p>
-                <p><strong>Ruta:</strong> {{ select.ruta }}</p>
-            {% else %}
-                <p>Seleccione un vehículo para ver detalles.</p>
-            {% endif %}
+        <div class="content">
+            <div class="columns">
+                <div class="map">
+                    <iframe 
+                        src="{{ select.localizacion }}" 
+                        width="100%" 
+                        height="400" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+    
+                <div class="info" id="vehicleInfo">
+                    <div class="info-card">
+                        <div class="info-label">Nombre:</div>
+                        <div class="info-data">{{ select.nombre }}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Conductor:</div>
+                        <div class="info-data">{{ select.conductor }}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Estado:</div>
+                        <div class="info-data">{{ select.status }}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Ruta:</div>
+                        <div class="info-data">{{ select.ruta }}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Velocidad:</div>
+                        <div class="info-data highlight">{{ select.velocidad }} km/h</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Nivel de Combustible:</div>
+                        <div class="info-data highlight">{{ select.nivel_combustible }}%</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Kilometraje:</div>
+                        <div class="info-data">{{ select.kilometraje }} km</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Temperatura del Motor:</div>
+                        <div class="info-data">{{ select.temperatura_motor }}°C</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Comportamiento de Conducción:</div>
+                        <div class="info-data">{{ select.comportamiento_conduccion }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% else %}
+            <p class="message">  <span class="logo">🚗</span>Selecciona un vehículo para ver información detallada.</p>
+        {% endif %}
     </div>
 </body>
 </html>
