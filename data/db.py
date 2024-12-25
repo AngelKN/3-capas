@@ -163,6 +163,8 @@ vehiculos_db = [
     )
 ]
 
+Estados = ["En movimiento", "En tránsito", "Disponible", "En revisión", "En pausa"]
+
 # Crea un diccionario de vehículos, utilizando el 'id' de cada vehículo como clave
 vehiculos_dict = {v.id: v for v in vehiculos_db}
 
@@ -173,3 +175,23 @@ def getVehiculos():
 # Función que busca un vehículo por su 'id' en el diccionario y lo retorna
 def getVehiculoId(id):
     return vehiculos_dict.get(id)
+
+def setVehiculoId(vehiculo):
+    
+    if getVehiculoId(vehiculo.id):
+        vehiculos_dict.get(vehiculo.id).nombre = vehiculo.nombre
+        vehiculos_dict.get(vehiculo.id).conductor = vehiculo.conductor
+        vehiculos_dict.get(vehiculo.id).status = vehiculo.status
+        vehiculos_dict.get(vehiculo.id).ruta = vehiculo.ruta
+        vehiculos_dict.get(vehiculo.id).velocidad = vehiculo.velocidad
+        vehiculos_dict.get(vehiculo.id).nivel_combustible = vehiculo.nivel_combustible
+        vehiculos_dict.get(vehiculo.id).kilometraje = vehiculo.kilometraje
+        vehiculos_dict.get(vehiculo.id).temperatura_motor = vehiculo.temperatura_motor
+        vehiculos_dict.get(vehiculo.id).comportamiento_conduccion = vehiculo.comportamiento_conduccion
+        
+        return True
+    else:
+        return False
+    
+def deleteVehiculoId(id):
+    vehiculos_dict.pop(id)
